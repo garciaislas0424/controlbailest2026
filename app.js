@@ -416,38 +416,38 @@ function verHistorial(){
 }
 
 function configurarRol(rol){
-rol = rol.toUpperCase();
-    console.log("Rol detectado:", rol);
 
-    // 🔵 RECOLECTADOR
+    rol = rol.toUpperCase();
+
+    const btnRegistrar = document.getElementById("btnRegistrar");
+    const btnAbonar = document.getElementById("btnAbonar");
+    const btnLiquidar = document.getElementById("btnLiquidar");
+    const btnEscanear = document.getElementById("btnEscanearAcceso");
+
+    // 🟢 RECOLECTADOR (ACCESO COMPLETO OPERATIVO)
     if(rol === "RECOLECTADOR"){
 
-        document.getElementById("btnRegistrar").style.display = "block";
-        document.getElementById("btnAbonar").style.display = "block";
-        document.getElementById("btnLiquidar").style.display = "block";
-        document.getElementById("btnEscanearAcceso").style.display = "none";
+        if(btnRegistrar) btnRegistrar.style.display = "block";
+        if(btnAbonar) btnAbonar.style.display = "block";
+        if(btnLiquidar) btnLiquidar.style.display = "block";
+        if(btnEscanear) btnEscanear.style.display = "block"; // 👈 IMPORTANTE
     }
 
-    // 🟡 ACCESISTA
+    // 🟡 ACCESISTA (SOLO ENTRADA)
     else if(rol === "ACCESISTA"){
 
-        document.getElementById("btnRegistrar").style.display = "none";
-        document.getElementById("btnAbonar").style.display = "none";
-        document.getElementById("btnLiquidar").style.display = "none";
-        document.getElementById("btnEscanearAcceso").style.display = "block";
+        if(btnRegistrar) btnRegistrar.style.display = "none";
+        if(btnAbonar) btnAbonar.style.display = "none";
+        if(btnLiquidar) btnLiquidar.style.display = "none";
+        if(btnEscanear) btnEscanear.style.display = "block";
     }
 
-    // 🔴 ADMIN
+    // 🔴 ADMIN (TODO)
     else if(rol === "ADMIN"){
 
-        document.getElementById("btnRegistrar").style.display = "block";
-        document.getElementById("btnAbonar").style.display = "block";
-        document.getElementById("btnLiquidar").style.display = "block";
-        document.getElementById("btnEscanearAcceso").style.display = "block";
-    }
-
-    else{
-
-        console.log("Rol no reconocido:", rol);
+        if(btnRegistrar) btnRegistrar.style.display = "block";
+        if(btnAbonar) btnAbonar.style.display = "block";
+        if(btnLiquidar) btnLiquidar.style.display = "block";
+        if(btnEscanear) btnEscanear.style.display = "block";
     }
 }
