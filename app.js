@@ -419,35 +419,77 @@ function configurarRol(rol){
 
     rol = rol.toUpperCase();
 
-    const btnRegistrar = document.getElementById("btnRegistrar");
-    const btnAbonar = document.getElementById("btnAbonar");
-    const btnLiquidar = document.getElementById("btnLiquidar");
-    const btnEscanear = document.getElementById("btnEscanearAcceso");
+    const panel = document.getElementById("panelScreen");
+    const acceso = document.getElementById("accesoScreen");
 
-    // 🟢 RECOLECTADOR (ACCESO COMPLETO OPERATIVO)
+    // 🟢 RECOLECTADOR
     if(rol === "RECOLECTADOR"){
 
-        if(btnRegistrar) btnRegistrar.style.display = "block";
-        if(btnAbonar) btnAbonar.style.display = "block";
-        if(btnLiquidar) btnLiquidar.style.display = "block";
-        if(btnEscanear) btnEscanear.style.display = "block"; // 👈 IMPORTANTE
+        panel.classList.remove("hidden");
+        if(acceso) acceso.classList.add("hidden");
+
+        document.getElementById("btnRegistrar").style.display = "block";
+        document.getElementById("btnAbonar").style.display = "block";
+        document.getElementById("btnLiquidar").style.display = "block";
+        document.getElementById("btnEscanearAcceso").style.display = "block";
     }
 
-    // 🟡 ACCESISTA (SOLO ENTRADA)
+    // 🟡 ACCESISTA (SOLO SU PANTALLA)
     else if(rol === "ACCESISTA"){
 
-        if(btnRegistrar) btnRegistrar.style.display = "none";
-        if(btnAbonar) btnAbonar.style.display = "none";
-        if(btnLiquidar) btnLiquidar.style.display = "none";
-        if(btnEscanear) btnEscanear.style.display = "block";
+        panel.classList.add("hidden");
+
+        if(acceso){
+            acceso.classList.remove("hidden");
+            iniciarEscaneoAcceso(); // 👈 aquí va el QR
+        }
     }
 
-    // 🔴 ADMIN (TODO)
+    // 🔴 ADMIN
     else if(rol === "ADMIN"){
 
-        if(btnRegistrar) btnRegistrar.style.display = "block";
-        if(btnAbonar) btnAbonar.style.display = "block";
-        if(btnLiquidar) btnLiquidar.style.display = "block";
-        if(btnEscanear) btnEscanear.style.display = "block";
+        panel.classList.remove("hidden");
+        if(acceso) acceso.classList.add("hidden");
+
+        document.getElementById("btnRegistrar").style.display = "block";
+        document.getElementById("btnAbonar").style.display = "block";
+        document.getElementById("btnLiquidar").style.display = "block";
+        document.getElementById("btnEscanearAcceso").style.display = "block";
     }
+}
+function iniciarEscaneoAcceso(){
+
+    const scanner = new Html5Qrcode("readerAcceso");
+
+    scanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        async (folio) => {
+
+            await scanner.stop();
+
+            consultarAcceso(folio);
+
+        }
+    );
+}
+function consultarAcceso(folio){
+
+    fetch(`${API_URL}?action=buscarFamilia&folio=${folio}`)
+    .then(r => r.json())
+    .then(data => {
+
+        const div = document.getElementById("resultadoAcceso");
+
+        if(!data.success){
+            div.innerHTML = "❌ NO ENCONTRADO";
+            return;
+        }
+
+        if(data.estado === "LIQUIDADO"){
+            div.innerHTML = "🟢 ACCESO PERMITIDO";
+        }else{
+            div.innerHTML = "🔴 NO LIQUIDADO";
+        }
+    });
 }
