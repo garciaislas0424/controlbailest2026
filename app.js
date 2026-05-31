@@ -200,7 +200,8 @@ const url =
 `&nombre=${encodeURIComponent(nombre)}` +
 `&barrio=${encodeURIComponent(barrio)}` +
 `&integrantes=${encodeURIComponent(integrantes)}` +
-`&total=${COSTO_EVENTO}`;
+`&total=${COSTO_EVENTO}` +
+`&usuarioRegistro=${encodeURIComponent(usuarioActivo.usuario)}`;
 
 const response = await fetch(url);
 
