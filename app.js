@@ -468,20 +468,29 @@ function configurarRol(rol){
     console.log("Rol aplicado:", rol);
 }
 
+function reiniciarEscaneoAcceso(){
+
+    const div = document.getElementById("resultadoAcceso");
+
+    // limpiar resultado visual
+    div.innerHTML = "";
+
+    // si hay scanner activo, lo cerramos bien
+    if(scannerAcceso){
+        scannerAcceso.stop()
+        .then(() => scannerAcceso.clear())
+        .catch(() => {})
+        .finally(() => {
+            scannerAcceso = null;
+            iniciarEscaneoAcceso();
+        });
+    }else{
+        iniciarEscaneoAcceso();
+    }
+}
+
 function iniciarEscaneoAcceso(){
 
-    // si existe, lo destruimos bien
-    if(scannerAcceso){
-
-        scannerAcceso.stop().then(() => {
-            scannerAcceso.clear();
-            scannerAcceso = null;
-        }).catch(() => {
-            scannerAcceso = null;
-        });
-    }
-
-    // IMPORTANTE: limpiar el contenedor
     document.getElementById("readerAcceso").innerHTML = "";
 
     scannerAcceso = new Html5Qrcode("readerAcceso");
