@@ -145,14 +145,17 @@ async function registrarFamilia(){
 
     try{
 
-        const response =
-            await fetch(API_URL,{
-                method:"POST",
-                body:JSON.stringify(payload)
-            });
+const url =
+`${API_URL}?action=registrarFamilia` +
+`&folio=${encodeURIComponent(folio)}` +
+`&nombre=${encodeURIComponent(nombre)}` +
+`&barrio=${encodeURIComponent(barrio)}` +
+`&integrantes=${encodeURIComponent(integrantes)}` +
+`&total=${COSTO_EVENTO}`;
 
-        const data =
-            await response.json();
+const response = await fetch(url);
+
+const data = await response.json();
 
         if(data.success){
 
