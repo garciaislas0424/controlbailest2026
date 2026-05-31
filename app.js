@@ -256,7 +256,8 @@ const data = await response.json();
 
 function buscarQR(){
 
-    document.getElementById("reader").style.display = "block";
+    // 👇 AQUÍ SE ABRE LA CÁMARA (SIEMPRE EN JS)
+    document.getElementById("reader").style.display = "flex";
 
     const scanner = new Html5Qrcode("reader");
 
@@ -270,13 +271,14 @@ function buscarQR(){
 
             await scanner.stop();
 
+            // 👇 AQUÍ SE CIERRA LA CÁMARA
             document.getElementById("reader").style.display = "none";
 
             consultarFamilia(folio);
-
         }
     );
 }
+
 async function consultarFamilia(folio){
 
     try{
