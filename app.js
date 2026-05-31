@@ -1,4 +1,12 @@
 // =========================
+window.addEventListener("load", () => {
+
+    document.getElementById("btnRegistrar").style.display = "none";
+    document.getElementById("btnAbonar").style.display = "none";
+    document.getElementById("btnLiquidar").style.display = "none";
+    document.getElementById("btnEscanearAcceso").style.display = "none";
+
+});
 // CONFIG
 // =========================
 
@@ -197,7 +205,7 @@ const url =
 `&barrio=${encodeURIComponent(barrio)}` +
 `&integrantes=${encodeURIComponent(integrantes)}` +
 `&total=${COSTO_EVENTO}` +
-`&usuarioRegistro=${encodeURIComponent(usuarioActivo.usuario)}`;
+`&usuarioRegistro=${encodeURIComponent(usuarioActivo?.usuario || "SIN_LOGIN")}`;
 
 const response = await fetch(url);
 
@@ -406,8 +414,9 @@ function verHistorial(){
       "Historial disponible en siguiente fase"
     );
 }
-function configurarRol(rol){
 
+function configurarRol(rol){
+rol = rol.toUpperCase();
     console.log("Rol detectado:", rol);
 
     // 🔵 RECOLECTADOR
