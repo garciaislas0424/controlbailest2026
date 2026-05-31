@@ -470,12 +470,19 @@ function configurarRol(rol){
 
 function iniciarEscaneoAcceso(){
 
-    // si ya existe, lo cerramos antes de crear otro
+    // si existe, lo destruimos bien
     if(scannerAcceso){
+
         scannerAcceso.stop().then(() => {
             scannerAcceso.clear();
-        }).catch(()=>{});
+            scannerAcceso = null;
+        }).catch(() => {
+            scannerAcceso = null;
+        });
     }
+
+    // IMPORTANTE: limpiar el contenedor
+    document.getElementById("readerAcceso").innerHTML = "";
 
     scannerAcceso = new Html5Qrcode("readerAcceso");
 
@@ -485,6 +492,9 @@ function iniciarEscaneoAcceso(){
         async (folio) => {
 
             await scannerAcceso.stop();
+            await scannerAcceso.clear();
+
+            scannerAcceso = null;
 
             consultarAcceso(folio);
         }
