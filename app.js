@@ -12,15 +12,7 @@ const COSTO_EVENTO = 1500;
 // =========================
 // DATOS SESION
 // =========================
-
-let usuarioActivo = {
-    usuario: "b1_01",
-    nombre: "Juan Pérez",
-    telefono: "7711111111",
-    barrio: "Barrio 1",
-    rol: "COBRADOR"
-};
-
+let usuarioActivo = null;
 // =========================
 // LOGIN TEMPORAL
 // =========================
@@ -70,6 +62,10 @@ async function login(){
             rol:data.rol
 
         };
+        console.log(usuarioActivo);
+
+        // 👇 AQUI VA EL CONTROL DE ROLES
+configurarRol(usuarioActivo.rol);
 
         document
             .getElementById("loginScreen")
