@@ -405,11 +405,12 @@ function verHistorial(){
     alert(
       "Historial disponible en siguiente fase"
     );
+}
 function configurarRol(rol){
 
     console.log("Rol detectado:", rol);
 
-    // RECOLECTADOR
+    // 🔵 RECOLECTADOR
     if(rol === "RECOLECTADOR"){
 
         document.getElementById("btnRegistrar").style.display = "block";
@@ -418,7 +419,7 @@ function configurarRol(rol){
         document.getElementById("btnEscanearAcceso").style.display = "none";
     }
 
-    // ACCESISTA
+    // 🟡 ACCESISTA
     else if(rol === "ACCESISTA"){
 
         document.getElementById("btnRegistrar").style.display = "none";
@@ -427,7 +428,7 @@ function configurarRol(rol){
         document.getElementById("btnEscanearAcceso").style.display = "block";
     }
 
-    // ADMIN
+    // 🔴 ADMIN
     else if(rol === "ADMIN"){
 
         document.getElementById("btnRegistrar").style.display = "block";
@@ -440,5 +441,4 @@ function configurarRol(rol){
 
         console.log("Rol no reconocido:", rol);
     }
-}
 }
