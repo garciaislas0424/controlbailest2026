@@ -419,43 +419,42 @@ function configurarRol(rol){
 
     rol = rol.toUpperCase();
 
-    const panel = document.getElementById("panelScreen");
-    const acceso = document.getElementById("accesoScreen");
+    const btnRegistrar = document.getElementById("btnRegistrar");
+    const btnAbonar = document.getElementById("btnAbonar");
+    const btnLiquidar = document.getElementById("btnLiquidar");
+    const btnEscanear = document.getElementById("btnEscanearAcceso");
+
+    // 🔒 OCULTAR TODO SIEMPRE PRIMERO
+    if(btnRegistrar) btnRegistrar.style.display = "none";
+    if(btnAbonar) btnAbonar.style.display = "none";
+    if(btnLiquidar) btnLiquidar.style.display = "none";
+    if(btnEscanear) btnEscanear.style.display = "none";
 
     // 🟢 RECOLECTADOR
     if(rol === "RECOLECTADOR"){
 
-        panel.classList.remove("hidden");
-        if(acceso) acceso.classList.add("hidden");
-
-        document.getElementById("btnRegistrar").style.display = "block";
-        document.getElementById("btnAbonar").style.display = "block";
-        document.getElementById("btnLiquidar").style.display = "block";
-        document.getElementById("btnEscanearAcceso").style.display = "block";
+        if(btnRegistrar) btnRegistrar.style.display = "block";
+        if(btnAbonar) btnAbonar.style.display = "block";
+        if(btnLiquidar) btnLiquidar.style.display = "block";
+        if(btnEscanear) btnEscanear.style.display = "block";
     }
 
-    // 🟡 ACCESISTA (SOLO SU PANTALLA)
+    // 🟡 ACCESISTA
     else if(rol === "ACCESISTA"){
 
-        panel.classList.add("hidden");
-
-        if(acceso){
-            acceso.classList.remove("hidden");
-            iniciarEscaneoAcceso(); // 👈 aquí va el QR
-        }
+        if(btnEscanear) btnEscanear.style.display = "block";
     }
 
     // 🔴 ADMIN
     else if(rol === "ADMIN"){
 
-        panel.classList.remove("hidden");
-        if(acceso) acceso.classList.add("hidden");
-
-        document.getElementById("btnRegistrar").style.display = "block";
-        document.getElementById("btnAbonar").style.display = "block";
-        document.getElementById("btnLiquidar").style.display = "block";
-        document.getElementById("btnEscanearAcceso").style.display = "block";
+        if(btnRegistrar) btnRegistrar.style.display = "block";
+        if(btnAbonar) btnAbonar.style.display = "block";
+        if(btnLiquidar) btnLiquidar.style.display = "block";
+        if(btnEscanear) btnEscanear.style.display = "block";
     }
+
+    console.log("Rol aplicado:", rol);
 }
 function iniciarEscaneoAcceso(){
 
