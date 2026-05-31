@@ -405,5 +405,40 @@ function verHistorial(){
     alert(
       "Historial disponible en siguiente fase"
     );
+function configurarRol(rol){
 
+    console.log("Rol detectado:", rol);
+
+    // RECOLECTADOR
+    if(rol === "RECOLECTADOR"){
+
+        document.getElementById("btnRegistrar").style.display = "block";
+        document.getElementById("btnAbonar").style.display = "block";
+        document.getElementById("btnLiquidar").style.display = "block";
+        document.getElementById("btnEscanearAcceso").style.display = "none";
+    }
+
+    // ACCESISTA
+    else if(rol === "ACCESISTA"){
+
+        document.getElementById("btnRegistrar").style.display = "none";
+        document.getElementById("btnAbonar").style.display = "none";
+        document.getElementById("btnLiquidar").style.display = "none";
+        document.getElementById("btnEscanearAcceso").style.display = "block";
+    }
+
+    // ADMIN
+    else if(rol === "ADMIN"){
+
+        document.getElementById("btnRegistrar").style.display = "block";
+        document.getElementById("btnAbonar").style.display = "block";
+        document.getElementById("btnLiquidar").style.display = "block";
+        document.getElementById("btnEscanearAcceso").style.display = "block";
+    }
+
+    else{
+
+        console.log("Rol no reconocido:", rol);
+    }
+}
 }
