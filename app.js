@@ -1,18 +1,10 @@
-// =========================
-window.addEventListener("load", () => {
 
-    document.getElementById("btnRegistrar").style.display = "none";
-    document.getElementById("btnAbonar").style.display = "none";
-    document.getElementById("btnLiquidar").style.display = "none";
-    document.getElementById("btnEscanearAcceso").style.display = "none";
-
-});
 // CONFIG
 // =========================
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzOXqcVGIolVMcu6o6N7Y_L53bLAUidud9V339YkQQT3yUsNSCCZBFBvVTAbYWIyaz9/exec";
-
+let scannerAcceso = null;
 let familiaActual = null;
 
 const COSTO_EVENTO = 1500;
@@ -447,15 +439,14 @@ function configurarRol(rol){
     const btnLiquidar = document.getElementById("btnLiquidar");
     const btnEscanear = document.getElementById("btnEscanearAcceso");
 
-    // 🔒 OCULTAR TODO SIEMPRE PRIMERO
-    if(btnRegistrar) btnRegistrar.style.display = "none";
-    if(btnAbonar) btnAbonar.style.display = "none";
-    if(btnLiquidar) btnLiquidar.style.display = "none";
-    if(btnEscanear) btnEscanear.style.display = "none";
+    // 🔒 SIEMPRE OCULTAR TODO PRIMERO
+    const botones = [btnRegistrar, btnAbonar, btnLiquidar, btnEscanear];
+    botones.forEach(b => {
+        if(b) b.style.display = "none";
+    });
 
     // 🟢 RECOLECTADOR
     if(rol === "RECOLECTADOR"){
-
         if(btnRegistrar) btnRegistrar.style.display = "block";
         if(btnAbonar) btnAbonar.style.display = "block";
         if(btnLiquidar) btnLiquidar.style.display = "block";
@@ -464,36 +455,42 @@ function configurarRol(rol){
 
     // 🟡 ACCESISTA
     else if(rol === "ACCESISTA"){
-
         if(btnEscanear) btnEscanear.style.display = "block";
     }
 
     // 🔴 ADMIN
     else if(rol === "ADMIN"){
-
-        if(btnRegistrar) btnRegistrar.style.display = "block";
-        if(btnAbonar) btnAbonar.style.display = "block";
-        if(btnLiquidar) btnLiquidar.style.display = "block";
-        if(btnEscanear) btnEscanear.style.display = "block";
+        botones.forEach(b => {
+            if(b) b.style.display = "block";
+        });
     }
 
     console.log("Rol aplicado:", rol);
 }
+
 function iniciarEscaneoAcceso(){
 
-    const scanner = new Html5Qrcode("readerAcceso");
+    // si ya existe, lo cerramos antes de crear otro
+    if(scannerAcceso){
+        scannerAcceso.stop().then(() => {
+            scannerAcceso.clear();
+        }).catch(()=>{});
+    }
 
-    scanner.start(
+    scannerAcceso = new Html5Qrcode("readerAcceso");
+
+    scannerAcceso.start(
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
         async (folio) => {
 
-            await scanner.stop();
+            await scannerAcceso.stop();
 
             consultarAcceso(folio);
-
         }
-    );
+    ).catch(err => {
+        console.log("Error scanner:", err);
+    });
 }
 function consultarAcceso(folio){
 
