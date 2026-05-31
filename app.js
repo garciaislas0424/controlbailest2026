@@ -25,32 +25,79 @@ let usuarioActivo = {
 // LOGIN TEMPORAL
 // =========================
 
-function login(){
+async function login(){
 
     const usuario =
-        document.getElementById("usuario").value;
+        document.getElementById("usuario").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("password").value.trim();
 
-    if(usuario === "" || password === ""){
-        alert("Ingrese usuario y contraseña");
+    if(!usuario || !password){
+
+        alert(
+            "Ingrese usuario y contraseña"
+        );
+
         return;
     }
 
-    document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
+    try{
 
-    document
-        .getElementById("panelScreen")
-        .classList.remove("hidden");
+        const response = await fetch(
+            `${API_URL}?action=login` +
+            `&usuario=${encodeURIComponent(usuario)}` +
+            `&password=${encodeURIComponent(password)}`
+        );
 
-    document.getElementById("infoUsuario").innerHTML = `
-        ${usuarioActivo.nombre}<br>
-        ${usuarioActivo.telefono}<br>
-        ${usuarioActivo.barrio}
-    `;
+        const data = await response.json();
+
+        if(!data.success){
+
+            alert(
+                "Usuario o contraseña incorrectos"
+            );
+
+            return;
+        }
+
+        usuarioActivo = {
+
+            usuario:data.usuario,
+            nombre:data.nombre,
+            telefono:data.telefono,
+            barrio:data.barrio,
+            rol:data.rol
+
+        };
+
+        document
+            .getElementById("loginScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("panelScreen")
+            .classList.remove("hidden");
+
+        document.getElementById(
+            "infoUsuario"
+        ).innerHTML = `
+
+            <b>${data.nombre}</b><br>
+            ${data.telefono}<br>
+            ${data.barrio}<br>
+            ${data.rol}
+
+        `;
+
+    }catch(error){
+
+        console.log(error);
+
+        alert(
+            "Error de conexión"
+        );
+    }
 }
 
 // =========================
