@@ -298,18 +298,23 @@ async function consultarFamilia(folio){
         familiaActual = data;
 
         if(!data.success){
-
             alert("Familia no encontrada");
             return;
         }
 
-        document
-            .getElementById("panelScreen")
-            .classList.add("hidden");
+        // 🔥 SI ES ACCESISTA
+        if(usuarioActivo.rol === "ACCESISTA"){
 
-        document
-            .getElementById("consultaScreen")
-            .classList.remove("hidden");
+            document.getElementById("panelScreen").classList.add("hidden");
+            document.getElementById("accesoScreen").classList.remove("hidden");
+
+            mostrarAcceso(data);
+            return;
+        }
+
+        // 🔵 RECOLECTADOR / ADMIN
+        document.getElementById("panelScreen").classList.add("hidden");
+        document.getElementById("consultaScreen").classList.remove("hidden");
 
         document.getElementById("datosFamilia").innerHTML = `
             <p><b>Folio:</b> ${data.folio}</p>
@@ -323,9 +328,7 @@ async function consultarFamilia(folio){
         `;
 
     }catch(error){
-
         console.log(error);
-
         alert("Error consultando familia");
     }
 }
@@ -413,6 +416,26 @@ function verHistorial(){
     alert(
       "Historial disponible en siguiente fase"
     );
+}
+
+function mostrarAcceso(data){
+
+    const div = document.getElementById("resultadoAcceso");
+
+    let estadoTexto = "";
+
+    if(data.estado === "LIQUIDADO"){
+        estadoTexto = "✅ LIQUIDADO";
+    }else{
+        estadoTexto = "❌ PENDIENTE";
+    }
+
+    div.innerHTML = `
+        <h1>${estadoTexto}</h1>
+        <br>
+        <b>Familia:</b> ${data.nombre}<br><br>
+        <b>Integrantes registrados:</b> ${data.integrantes}
+    `;
 }
 
 function configurarRol(rol){
