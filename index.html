@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Control Baile 2026</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</head>
+<body>
+
+<!-- LOGIN -->
+
+<section id="loginScreen" class="screen">
+
+<div class="card">
+
+<h1>🎉 CONTROL BAILE 2026</h1>
+
+<input type="text" id="usuario" placeholder="Usuario">
+
+<input type="password" id="password" placeholder="Contraseña">
+
+<button onclick="login()">
+Ingresar
+</button>
+
+</div>
+
+</section>
+
+<!-- PANEL -->
+
+<section id="panelScreen" class="screen hidden">
+
+<div class="header">
+
+<h2>Usuario Activo</h2>
+
+<p id="infoUsuario"></p>
+
+</div>
+
+<div class="menu">
+
+<button onclick="mostrarRegistro()">
+➕ Registrar Familia
+</button>
+
+<button onclick="buscarQR()">
+📷 Escanear QR
+</button>
+
+</div>
+
+</section>
+
+<!-- REGISTRO -->
+
+<section id="registroScreen" class="screen hidden">
+
+<div class="card">
+
+<h2>Registrar Familia</h2>
+
+<input
+type="text"
+id="nombre"
+placeholder="Nombre completo">
+
+<select id="barrio">
+
+<option>Barrio 1</option>
+<option>Barrio 2</option>
+<option>Barrio 3</option>
+<option>Barrio 4</option>
+<option>Barrio 5</option>
+
+</select>
+
+<input
+type="number"
+id="integrantes"
+placeholder="Integrantes">
+
+<button onclick="registrarFamilia()">
+Generar QR
+</button>
+
+<button onclick="volverPanel()">
+Volver
+</button>
+
+</div>
+
+</section>
+
+<!-- RESULTADO -->
+
+<section id="resultadoScreen" class="screen hidden">
+
+<div class="card">
+
+<h2>Registro Exitoso</h2>
+
+<p id="folioGenerado"></p>
+
+<div id="qrcode"></div>
+
+<button onclick="volverPanel()">
+Finalizar
+</button>
+
+</div>
+
+</section>
+
+<script src="app.js"></script>
+
+</body>
+</html>

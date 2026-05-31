@@ -1,0 +1,124 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    min-height:100vh;
+}
+
+.screen{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.hidden{
+    display:none;
+}
+
+.card{
+    width:100%;
+    max-width:450px;
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.card h1,
+.card h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#222;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    background:#0d6efd;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.02);
+}
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#0d6efd;
+    color:white;
+    text-align:center;
+    padding:15px;
+    z-index:100;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.header h2{
+    margin-bottom:5px;
+}
+
+.menu{
+    width:100%;
+    max-width:450px;
+    margin-top:120px;
+}
+
+.menu button{
+    margin-bottom:15px;
+    height:65px;
+    font-size:18px;
+}
+
+#qrcode{
+    display:flex;
+    justify-content:center;
+    margin:20px 0;
+}
+
+#folioGenerado{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    margin-top:10px;
+    margin-bottom:20px;
+    color:#198754;
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:20px;
+    }
+
+    button{
+        font-size:15px;
+    }
+
+}
