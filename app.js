@@ -5,6 +5,8 @@
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzOXqcVGIolVMcu6o6N7Y_L53bLAUidud9V339YkQQT3yUsNSCCZBFBvVTAbYWIyaz9/exec";
 
+let familiaActual = null;
+
 const COSTO_EVENTO = 1500;
 
 // =========================
@@ -241,6 +243,8 @@ async function consultarFamilia(folio){
 
         const data = await response.json();
 
+        familiaActual = data;
+
         if(!data.success){
 
             alert("Familia no encontrada");
@@ -272,4 +276,90 @@ async function consultarFamilia(folio){
 
         alert("Error consultando familia");
     }
+}
+async function abonarFamilia(){
+
+    if(!familiaActual){
+        return;
+    }
+
+    const monto = prompt("Monto del abono:");
+
+    if(!monto){
+        return;
+    }
+
+    const response = await fetch(
+        `${API_URL}?action=registrarPago` +
+        `&folio=${encodeURIComponent(familiaActual.folio)}` +
+        `&tipo=ABONO` +
+        `&monto=${monto}` +
+        `&usuario=${usuarioActivo.usuario}`
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+
+        alert(
+            `Abono registrado\n\nSaldo: $${data.saldo}`
+        );
+
+        consultarFamilia(
+            familiaActual.folio
+        );
+    }
+}
+async function liquidarFamilia(){
+
+    if(!familiaActual){
+        return;
+    }
+
+    const saldo = Number(
+        familiaActual.saldo
+    );
+
+    if(saldo <= 0){
+
+        alert("Ya está liquidado");
+
+        return;
+    }
+
+    const confirmar = confirm(
+        `¿Liquidar saldo de $${saldo}?`
+    );
+
+    if(!confirmar){
+        return;
+    }
+
+    const response = await fetch(
+        `${API_URL}?action=registrarPago` +
+        `&folio=${encodeURIComponent(familiaActual.folio)}` +
+        `&tipo=LIQUIDACION` +
+        `&monto=${saldo}` +
+        `&usuario=${usuarioActivo.usuario}`
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+
+        alert(
+            "Familia liquidada correctamente"
+        );
+
+        consultarFamilia(
+            familiaActual.folio
+        );
+    }
+}
+function verHistorial(){
+
+    alert(
+      "Historial disponible en siguiente fase"
+    );
+
 }
