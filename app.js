@@ -210,7 +210,66 @@ const data = await response.json();
 
 function buscarQR(){
 
-    alert(
-        "Escáner QR disponible en la siguiente fase"
+    document.getElementById("reader").style.display = "block";
+
+    const scanner = new Html5Qrcode("reader");
+
+    scanner.start(
+        { facingMode: "environment" },
+        {
+            fps: 10,
+            qrbox: 250
+        },
+        async (folio) => {
+
+            await scanner.stop();
+
+            document.getElementById("reader").style.display = "none";
+
+            consultarFamilia(folio);
+
+        }
     );
+}
+async function consultarFamilia(folio){
+
+    try{
+
+        const response = await fetch(
+            `${API_URL}?action=buscarFamilia&folio=${encodeURIComponent(folio)}`
+        );
+
+        const data = await response.json();
+
+        if(!data.success){
+
+            alert("Familia no encontrada");
+            return;
+        }
+
+        document
+            .getElementById("panelScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("consultaScreen")
+            .classList.remove("hidden");
+
+        document.getElementById("datosFamilia").innerHTML = `
+            <p><b>Folio:</b> ${data.folio}</p>
+            <p><b>Nombre:</b> ${data.nombre}</p>
+            <p><b>Barrio:</b> ${data.barrio}</p>
+            <p><b>Integrantes:</b> ${data.integrantes}</p>
+            <p><b>Total:</b> $${data.total}</p>
+            <p><b>Abonado:</b> $${data.abonado}</p>
+            <p><b>Saldo:</b> $${data.saldo}</p>
+            <p><b>Estado:</b> ${data.estado}</p>
+        `;
+
+    }catch(error){
+
+        console.log(error);
+
+        alert("Error consultando familia");
+    }
 }
