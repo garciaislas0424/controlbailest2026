@@ -7,7 +7,7 @@ const API_URL =
 let scannerAcceso = null;
 let familiaActual = null;
 
-const COSTO_EVENTO = 1500;
+const COSTO_EVENTO = 400;
 
 // =========================
 // DATOS SESION
@@ -113,17 +113,17 @@ function mostrarRegistro(){
 
 function volverPanel(){
 
-    document
-        .getElementById("registroScreen")
-        .classList.add("hidden");
+    document.getElementById("registroScreen").classList.add("hidden");
+    document.getElementById("resultadoScreen").classList.add("hidden");
+    document.getElementById("consultaScreen").classList.add("hidden");
+    document.getElementById("accesoScreen").classList.add("hidden");
 
-    document
-        .getElementById("resultadoScreen")
-        .classList.add("hidden");
+    document.getElementById("datosFamilia").innerHTML = "";
+    document.getElementById("resultadoAcceso").innerHTML = "";
 
-    document
-        .getElementById("panelScreen")
-        .classList.remove("hidden");
+    familiaActual = null;
+
+    document.getElementById("panelScreen").classList.remove("hidden");
 }
 
 // =========================
@@ -135,14 +135,22 @@ function generarFolio(barrio){
     const numero =
         Date.now().toString().slice(-6);
 
-    let codigoBarrio = "B1";
+    const codigos = {
 
-    if(barrio === "Barrio 2") codigoBarrio = "B2";
-    if(barrio === "Barrio 3") codigoBarrio = "B3";
-    if(barrio === "Barrio 4") codigoBarrio = "B4";
-    if(barrio === "Barrio 5") codigoBarrio = "B5";
+        "Bo.PuebloNuevo":"BPN",
+        "Bo.Guadalupe":"BGD",
+        "Bo.Judio":"BJD",
+        "Bo.Palma":"BPL",
+        "Bo.Eucalipto":"BEC",
+        "Bo.SGertrudis":"BSG",
+        "Bo.Nopancalco":"BNO"
 
-    return `EV2026-${codigoBarrio}-${numero}`;
+    };
+
+    const codigoBarrio =
+        codigos[barrio] || "GEN";
+
+    return `FP2026-${codigoBarrio}-${numero}`;
 }
 
 // =========================
@@ -350,14 +358,12 @@ async function abonarFamilia(){
 
     if(data.success){
 
-        alert(
-            `Abono registrado\n\nSaldo: $${data.saldo}`
-        );
+    alert(
+        `Abono registrado\n\nSaldo: $${data.saldo}`
+    );
 
-        consultarFamilia(
-            familiaActual.folio
-        );
-    }
+    volverPanel();
+}
 }
 async function liquidarFamilia(){
 
@@ -396,14 +402,12 @@ async function liquidarFamilia(){
 
     if(data.success){
 
-        alert(
-            "Familia liquidada correctamente"
-        );
+    alert(
+        "Familia liquidada correctamente"
+    );
 
-        consultarFamilia(
-            familiaActual.folio
-        );
-    }
+    volverPanel();
+}
 }
 function verHistorial(){
 
