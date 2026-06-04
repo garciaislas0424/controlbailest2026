@@ -178,15 +178,32 @@ async function registrarFamilia(){
         return;
     }
 
-    const folio =
-    document.getElementById("folio")
-    .value.trim()
-    .toUpperCase();
+  // NUMERO DEL TALON
+const numeroTalon =
+document.getElementById("folio")
+.value.trim();
 
-    if(folio === ""){
-    alert("Ingrese el folio del talonario");
+if(numeroTalon === ""){
+    alert("Ingrese el número de talón");
     return;
 }
+
+// PREFIJO SEGUN BARRIO
+let prefijo = "";
+
+if(barrio === "Bo.PuebloNuevo") prefijo = "PN";
+if(barrio === "Bo.Guadalupe") prefijo = "GD";
+if(barrio === "Bo.Judio") prefijo = "JU";
+if(barrio === "Bo.Palma") prefijo = "PA";
+if(barrio === "Bo.Eucalipto") prefijo = "EU";
+if(barrio === "Bo.SGertrudis") prefijo = "SG";
+if(barrio === "Bo.Nopancalco") prefijo = "NO";
+
+// FOLIO FINAL
+const folio =
+`${prefijo}-${numeroTalon.padStart(4,"0")}`;
+
+console.log("FOLIO:", folio);
 
     const payload = {
 
