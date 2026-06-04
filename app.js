@@ -537,3 +537,19 @@ function consultarAcceso(folio){
         }
     });
 }
+async function buscarPorFolio(){
+
+    let folio = prompt(
+        "Ingrese el folio"
+    );
+
+    if(!folio){
+        return;
+    }
+
+    folio = folio
+        .trim()
+        .toUpperCase();
+
+    consultarFamilia(folio);
+}
