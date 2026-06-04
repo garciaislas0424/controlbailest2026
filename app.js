@@ -179,7 +179,14 @@ async function registrarFamilia(){
     }
 
     const folio =
-        generarFolio(barrio);
+    document.getElementById("folio")
+    .value.trim()
+    .toUpperCase();
+
+    if(folio === ""){
+    alert("Ingrese el folio del talonario");
+    return;
+}
 
     const payload = {
 
