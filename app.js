@@ -7,7 +7,7 @@ const API_URL =
 let scannerAcceso = null;
 let familiaActual = null;
 
-const COSTO_EVENTO = 400;
+const COSTO_EVENTO = 500;
 
 // =========================
 // DATOS SESION
